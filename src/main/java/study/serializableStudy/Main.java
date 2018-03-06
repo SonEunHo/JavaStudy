@@ -1,4 +1,4 @@
-package SerializableStudy;
+package study.serializableStudy;
 
 import java.io.*;
 
