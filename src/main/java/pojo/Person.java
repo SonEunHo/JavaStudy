@@ -1,9 +1,11 @@
 package pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by Nano.son on 2018. 3. 4.
  */
-public class Person {
+public class Person implements Serializable{
     private String name;
     private int age;
     private String nickName;
