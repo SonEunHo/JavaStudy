@@ -5,36 +5,40 @@ package patterns.StrategyPattern;
  */
 public class BackGroundManager {
     private final Runnable task;
-    private DoSomething before_task;
-    private DoSomething after_task;
+    private final DoSomething before_task;
+    private final DoSomething after_task;
 
-    private BackGroundManager(Runnable task) {
-        this.task = task;
-        before_task = null;
-        after_task = null;
+    private BackGroundManager(Builder builder) {
+        this.task = builder.task;
+        this.before_task = builder.before_task;
+        this.after_task = builder.after_task;
     }
 
-    static class Builder {
-        private BackGroundManager backGroundManager;
+    public static class Builder {
+        private final Runnable task;
+        private DoSomething before_task;
+        private DoSomething after_task;
 
         Builder (Runnable task) {
             if(task == null)
                 throw new RuntimeException("Error, task is null !!");
-            backGroundManager = new BackGroundManager(task);
+            this.task = task;
+            before_task = null;
+            after_task = null;
         }
 
         public Builder beforeTask(DoSomething before_task) {
-            this.backGroundManager.setBefore_task(before_task);
+            this.before_task = before_task;
             return this;
         }
 
         public Builder afterTask(DoSomething after_task) {
-            this.backGroundManager.setAfter_task(after_task);
+            this.after_task = after_task;
             return this;
         }
 
         public BackGroundManager build() {
-            return this.backGroundManager;
+            return new BackGroundManager(this);
         }
     }
 
@@ -44,13 +48,5 @@ public class BackGroundManager {
         task.run();
         if(after_task != null)
             after_task.doSomething();
-    }
-
-    private void setBefore_task(DoSomething before_task) {
-        this.before_task = before_task;
-    }
-
-    private void setAfter_task(DoSomething after_task) {
-        this.after_task = after_task;
     }
 }
